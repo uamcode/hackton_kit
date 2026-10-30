@@ -23,13 +23,12 @@
 | [AGENTS.md](AGENTS.md) | 작업 시작: 구현·검증·중단·서브에이전트 위임 규칙 |
 | [PRODUCT.md](PRODUCT.md) | 요구사항과 완료 기준 확인 |
 | [DESIGN.md](DESIGN.md) | UI 구현 전: 화면 흐름·토큰·상태 |
-| [TASKS.md](TASKS.md) | 현재 작업·담당·다음 행동 갱신 |
+| [TASKS.md](TASKS.md) | 맥락 복원·현재 작업·담당·다음 행동 갱신 |
 | [VERIFY.md](VERIFY.md) | 실제 명령·조작·예상·관찰 결과 기록 |
-| [DECISIONS.md](DECISIONS.md) | 구조·중요한 선택·AI 제안을 바꾼 이유 기록 |
-| [HANDOFF.md](HANDOFF.md) | 맥락 복원·실행·시연·남은 문제 정리 |
+| [DECISIONS.md](DECISIONS.md) | 실제 흐름·중요한 선택·AI 제안을 바꾼 이유·한계 기록 |
 
 작업 루프: `요구사항 선택 → 작은 구현 → VERIFY → GUARD → 근거 기록 → 다음 작업`.
-VERIFY는 이번 요구사항 충족 확인, GUARD는 기존 동작과 필수 제약의 회귀 확인이다.
+VERIFY·GUARD의 기준과 실제 증거는 VERIFY.md에서 관리한다.
 
 ## 도구 설치
 
@@ -51,7 +50,7 @@ npx skills add anthropics/skills --skill frontend-design --agent codex --copy -y
 npx skills add vercel-labs/agent-skills --skill web-design-guidelines --agent codex --copy -y
 ```
 
-Codex 대화창에서 `$frontend-design`으로 구현하고 `$web-design-guidelines`로 검토한다. 실제 브라우저 동작도 확인한다.
+Codex 대화창에서 `$frontend-design`으로 구현하고 `$web-design-guidelines`로 검토한다.
 
 ### Exa
 
@@ -63,7 +62,7 @@ codex mcp list
 ```
 
 설정 UI로 연결할 때도 서버 이름은 `exa`, URL은 `https://mcp.exa.ai/mcp`다. 인증을 요청할 때만 `codex mcp login exa`를 실행한다.
-연결 후 공식 문서를 검색하고 한 페이지를 읽어 출처 URL을 확인한다. 비공개 과제 원문·코드·입력 데이터·로그는 검색에 보내지 않는다.
+연결 후 공식 문서를 검색하고 한 페이지를 읽어 출처 URL을 확인한다.
 
 ### 차트가 필요할 때
 
@@ -73,7 +72,6 @@ npx @subhanhq/amicro@latest add mono-rounded-line
 ```
 
 Amicro 설정이 있으면 `init`을 생략한다. 목적에 따라 `mono-rounded-line` 대신 `mono-rounded-bar` 또는 `mono-rounded-kpi` 중 필요한 것만 추가한다.
-샘플 데이터를 실제 입력에 연결하고 빈 데이터·값 0·화면 크기 변경을 확인한다.
 
 ## Codex 대화창 명령
 
@@ -87,15 +85,20 @@ Amicro 설정이 있으면 `init`을 생략한다. 목적에 따라 `mono-rounde
 
 컨텍스트 잔량과 계정·대회 사용 예산은 별개다. 표시되지 않는 사용 한도는 추정하지 않는다.
 
-## 제출 준비
+## 제출·시연 준비
 
-- 제출 30분 전부터 새 기능을 멈추고 검증·시연·문서 정리에 집중한다.
-- 제출 README에는 **실제** 런타임·설치·실행 명령·접속 주소·테스트·시연 순서·남은 한계를 적는다.
-- 핵심 동작과 확인 근거는 HANDOFF·VERIFY, AI 제안을 바꾼 내용과 사람이 밝힌 이유는 DECISIONS에 남긴다.
+과제 README에 아래 실제 값을 기록한다. 기존 제출 형식이 있으면 그 형식에 병합한다.
 
-아래 두 질문은 본인이 직접 답할 수 있도록 실제 코드·실행 근거를 준비한다.
+- 런타임·버전·의존성 설치·실행 명령·포트·접속 주소
+- 핵심 흐름의 화면/경로·샘플 입력·기대 결과·연결 R-ID와 대표 오류 사례
+- 빌드·테스트 명령·최종 검증 결과와 남은 한계 — 상세 증거는 VERIFY 참조
+- 실제 사용한 공개 자료·스킬의 출처와 직접 구현·변경한 범위
 
-1. 서비스의 핵심 동작은 무엇이고, 어떻게 확인했는가?
-2. AI 에이전트의 제안을 바꿨다면, 무엇을 왜 바꿨는가?
+아래 두 질문은 본인이 직접 답한다. 별도 답변 메모를 중복 작성하지 않고 기존 기록을 근거로 쓴다.
+
+| 질문 | 근거와 기록 위치 |
+| --- | --- |
+| 서비스의 핵심 동작은 무엇이고 어떻게 확인했는가? | PRODUCT의 목적·R-ID → DECISIONS의 실제 입력/처리/결과·코드 위치 → VERIFY의 실제 조작·예상/관찰 결과·미검증 범위 |
+| AI 에이전트의 제안을 바꿨다면 무엇을 왜 바꿨는가? | DECISIONS의 원래 제안·수정·사람이 밝힌 이유·VERIFY 증거 ID, 연결 TASKS 반복 |
 
 미실행 검증과 없었던 판단을 만들어 적지 않는다. AI 제안을 바꾼 사례가 없으면 없다고 남긴다.
