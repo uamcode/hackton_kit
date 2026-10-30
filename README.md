@@ -2,7 +2,22 @@
 
 준비 기준일: 2026-10-31. Codex를 활용한 해커톤의 목표 설정, 구현, 검증, 인수인계를 돕는 Markdown 준비 키트다. 공식 평가 기준이나 특정 시험 환경의 도구 지원을 보장하지 않는다. 참가하는 행사의 안내와 제출 형식이 우선한다.
 
-추천 조합은 **Ponytail + Impeccable + 기본 웹 검색**, Exa는 검색 대안이다. 차트가 필요한 React 과제에는 **Mono Charts**를 우선 검토한다. 루프는 `요구사항 선택 → 작은 구현 → 기능 확인 → 회귀 확인 → 근거 기록 → 다음 작업`으로 운영한다. 문서는 루프를 돕는 장치이며, 작성만으로 작업이 자동 실행되지는 않는다.
+기본 구성은 **Ponytail + frontend-design + web-design-guidelines + Exa**다. 사전 체험 환경에는 기본 웹 검색이 없어 **Exa 검색 연결을 필수로 준비**한다. 플러그인을 사용할 수 없으면 체험에서 사용한 MCP 경로로 연결한다. 차트가 필요한 React 과제에는 **Mono Charts**를 우선 검토한다. 루프는 `요구사항 선택 → 작은 구현 → 기능 확인 → 회귀 확인 → 근거 기록 → 다음 작업`으로 운영한다. 문서는 루프를 돕는 장치이며, 작성만으로 작업이 자동 실행되지는 않는다.
+
+## 사전 체험 결과
+
+2026-10-31 사용자 보고 기준이다. 본 과제에서도 같은 설정·가용량이 유지된다는 뜻은 아니다.
+
+| 항목 | 체험 결과와 반영 |
+| --- | --- |
+| GitHub 다운로드 | git clone 성공 |
+| Ponytail | 설치 성공 |
+| 프론트 관련 스킬 | 설치 성공. 설치 수가 많아 기본 구성을 아래 두 스킬로 축소 |
+| 기본 웹 검색 | 제공되지 않음. Exa 검색 연결을 필수 준비 |
+| Exa 플러그인 / MCP | 플러그인 목록에서 찾지 못해 MCP로 연결·사용 |
+| Fast 모드 | 동작 확인 |
+
+스킬별 정확한 설치 방식·첫 호출 결과는 따로 확인한다. 위 결과를 본 과제 기능·시연이 검증된 상태로 기록하지 않는다.
 
 ## 빠르게 가져오기
 
@@ -71,7 +86,20 @@ codex plugin --help
 codex mcp --help
 ```
 
-현재 로컬에서는 Codex CLI 0.165.0의 `plugin add`, `plugin marketplace add`, `mcp add --url`, `--search` 도움말을 확인했다. 설치나 시험 환경에서의 실행은 검증하지 않았다. `skills` CLI의 현재 문서는 Node.js 22.20 이상을 요구하므로 사전 체험에서 버전을 확인한다. [Skills CLI 공식 저장소](https://github.com/vercel-labs/skills)
+로컬에서는 Codex CLI 0.165.0의 `plugin add`, `plugin marketplace add`, `mcp add --url` 도움말을 확인했다. 사전 체험의 설치·사용 성공은 위 사용자 보고로 구분해 기록했으며, 새 Exa Git marketplace 경로와 축소한 두 스킬의 개별 호출은 시험 환경에서 재확인이 필요하다. `skills` CLI의 현재 문서는 Node.js 22.20 이상을 요구하므로 사전 체험에서 버전을 확인한다. [Skills CLI 공식 저장소](https://github.com/vercel-labs/skills)
+
+### Fast 모드와 사용량 확인
+
+아래는 셸 명령이 아니라 **실행 중인 Codex 대화창**에 입력하는 명령이다.
+
+| 명령 | 용도 |
+| --- | --- |
+| `/fast` | Fast 모드 설정 확인·변경. 사전 체험에서 동작 확인 |
+| `/status` | 현재 세션의 모델·토큰/컨텍스트 사용 상태와 제공되는 사용 한도 확인 |
+| `/statusline` | 지원되는 CLI에서 컨텍스트 잔량·사용 한도·토큰 카운터를 하단에 표시하도록 설정 |
+| `/usage` | 지원되는 CLI와 인증 방식에서 계정 사용량 조회. 일/주/누적 조회는 `/usage daily`, `/usage weekly`, `/usage cumulative` |
+
+**대화에 남은 컨텍스트와 계정·시험의 사용 예산은 서로 다르다.** 컨텍스트 잔여 비율을 전체 계정 잔여 토큰으로 해석하지 않는다. 시험 전용 인증이나 게이트웨이에서는 계정 한도가 표시되지 않을 수 있다. `/status`에 예산이 없거나 명령이 지원되지 않으면 플랫폼의 사용량 표시 또는 Helper로 확인한다. 표시되지 않은 잔여량을 추정하지 않는다. [OpenAI 명령 안내](https://learn.chatgpt.com/docs/developer-commands)
 
 ### 코딩: Ponytail
 
@@ -98,58 +126,37 @@ PRODUCT.md의 필수 요구사항을 만족하는 가장 작은 변경으로 구
 검증, 오류 처리, 접근성은 유지하라.
 ```
 
-### 디자인 기본: Impeccable
+### 프론트 스킬: 구현·검토용 두 개만 설치
 
-디자인 구현부터 검토·수정까지 같은 도구로 이어가기 좋아 기본 후보로 선정했다. **현재 버전은 `impeccable`이라는 스킬과 `$impeccable 하위명령` 형식**을 사용한다. 예전 노트의 개별 슬래시 명령을 그대로 가정하지 않는다. [공식 사용 안내](https://impeccable.style/docs/)
+| 스킬 | 역할 | 범용성 |
+| --- | --- | --- |
+| Anthropic `frontend-design` | 레이아웃·타이포그래피·시각 방향을 정하고 UI 구현 | 특정 프레임워크에 묶이지 않는 웹 UI 설계 |
+| Vercel `web-design-guidelines` | UI 코드의 접근성·상호작용·사용성 검토 | 웹 인터페이스 기준 검토 |
 
-```sh
-npx impeccable install --providers=codex --scope=project
-```
-
-설치 후 도구를 다시 로드한다. 디자인 훅을 사용하는 설치라면 `/hooks`에서 검토·허용한다. 현재 배포는 보조 실행 파일을 포함하거나 첫 실행 시 내려받을 수 있으므로 **설치 성공뿐 아니라 첫 호출까지 사전 체험**한다. [공식 설치 옵션](https://github.com/pbakaus/impeccable#installation)
-
-스킬만 설치하는 대안 — 위 설치와 둘 중 하나를 선택한다. 전용 설치 프로그램의 훅·통합 구성과는 차이가 있다.
-
-```sh
-npx skills add pbakaus/impeccable --skill impeccable --agent codex --copy -y
-```
-
-Codex 대화창에서 필요한 단계만 호출한다.
-
-```text
-$impeccable init
-기존 PRODUCT.md의 사용자·필수 요구사항을 유지하고 빠진 디자인 맥락만 보완해라.
-이번에는 이미지를 생성하는 시안 단계 없이 코드로 구현한다.
-
-$impeccable shape
-PRODUCT.md와 DESIGN.md를 읽고 핵심 화면과 사용자 흐름 하나를 설계해라.
-
-$impeccable audit
-실행 중인 핵심 화면의 접근성, 반응형, 오류·로딩·빈 상태를 점검해라.
-실제 화면을 확인하지 못한 항목은 미검증으로 구분해라.
-
-$impeccable polish
-기능을 유지하며 발견된 문제와 간격·타이포그래피만 수정해라.
-```
-
-`PRODUCT.md`와 `DESIGN.md`는 Impeccable도 사용하는 맥락 파일이다. 문서가 이미 있으면 전체 재작성 대신 필요한 부분만 갱신한다. [공식 시작 가이드](https://impeccable.style/tutorials/getting-started/)
-
-### 가벼운 디자인 대안과 선택 검토 도구
-
-Impeccable의 실행 파일·통합 설정이 환경에 맞지 않으면 **Anthropic의 frontend-design**을 대안으로 쓴다. 스킬의 지침을 Codex가 읽는 방식이며 Claude 모델을 사용하는 것은 아니다. 생성용 디자인 스킬을 여러 개 동시에 적용할 필요는 없다. [원본 스킬](https://github.com/anthropics/skills/tree/main/skills/frontend-design)
+저장소 전체를 설치하지 않고 **`--skill`로 각각 하나만 선택**한다. 아래 두 설치 명령을 기본으로 사용한다.
 
 ```sh
 npx skills add anthropics/skills --skill frontend-design --agent codex --copy -y
-```
-
-추가 검토 기준이 필요할 때만 **Vercel web-design-guidelines**를 설치한다. UI 코드 검토용이며 실행 화면 검증을 대신하지 않는다. 검토할 때 외부의 최신 가이드를 가져오므로 네트워크도 필요하다. [원본 스킬](https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines)
-
-```sh
 npx skills add vercel-labs/agent-skills --skill web-design-guidelines --agent codex --copy -y
 npx skills list --agent codex
 ```
 
-설치 수는 후보의 보급 정도를 보는 참고치다. 2026-10-31 조회 화면 기준 [Impeccable 약 37만](https://www.skills.sh/pbakaus/impeccable/impeccable), [frontend-design 약 110만](https://www.skills.sh/anthropics/skills/frontend-design), [web-design-guidelines 약 80만](https://www.skills.sh/vercel-labs/agent-skills/web-design-guidelines)이었다. 추천은 보급 수와 함께 원본 지침, 설치 의존성, 이번 작업 범위를 검토해 정했다.
+설치 후 `/skills` 또는 스킬 선택기에 두 이름이 보이는지 확인하고 환경이 허용하는 방식으로 다시 로드한다. 이미 설치한 다른 스킬을 자동으로 삭제하지 않는다. 여러 개가 설치돼 있다면 목록과 설치 범위를 확인하고 이번 작업에서는 위 두 스킬만 호출한다.
+
+Codex 대화창 예시:
+
+```text
+$frontend-design
+PRODUCT.md와 DESIGN.md를 읽고 핵심 화면을 구현해라.
+제공된 스택과 컴포넌트를 활용하고 기존 기능·데이터 흐름은 유지해라.
+
+$web-design-guidelines
+변경한 UI 코드를 검토하고 접근성·입력·포커스·오류 상태의 문제를 찾아라.
+필요한 최신 공식 가이드는 Exa로 읽고 확인하지 못한 기준은 미검증으로 남겨라.
+실제 화면에서 확인할 항목을 구분해라.
+```
+
+`web-design-guidelines`는 검토할 때 최신 가이드를 가져온다. 가이드를 읽지 못하면 그 사실을 기록하고 코드 검토와 실제 브라우저 검증을 구분한다. 기능 검증은 별도로 수행한다. [frontend-design 원본](https://github.com/anthropics/skills/tree/main/skills/frontend-design) · [web-design-guidelines 원본](https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines)
 
 ### 프론트 차트: Mono Charts — 필요한 경우 선택
 
@@ -177,40 +184,65 @@ Codex 대화창 예시:
 데이터 변경 시 그래프 갱신과 좁은 화면 표시를 실제 검증해라.
 ```
 
-### 웹 검색: 기본 검색 확인 후 Exa 준비
+### 웹 검색: Exa 필수 — 플러그인 확인 후 MCP 연결
 
-**웹 검색은 준비하되 기본 검색이 잘 되면 Exa를 추가할 필요는 없다.** 일반적인 로컬 Codex는 검색을 제공하고, CLI의 `--search`는 실시간 검색을 켠다. 시험 환경에서 제공하는 Codex의 권한·기능은 별도로 확인해야 한다. [OpenAI 웹 검색 문서](https://learn.chatgpt.com/docs/web-search)
+사전 체험에는 기본 웹 검색이 없었고 Exa MCP로 검색했다. **필수인 것은 Exa 검색 도구의 실제 연결·호출 성공**이다. 플러그인과 MCP를 중복 설치할 필요는 없다.
 
-표준 CLI 실행을 지원하는 환경에서 사용할 수 있는 명령:
+#### 1. 공식 디렉터리에서 플러그인 설치
+
+Codex 대화창의 `/plugins` 또는 제공되는 Plugins 메뉴에서 Exa를 찾는다. 직접 접근이 허용되면 [Exa 공식 플러그인 페이지](https://chatgpt.com/plugins/exa)에서 설치하고 안내되는 인증을 마친다. 설치 후 환경이 허용하는 새 세션에서 도구가 보이는지 확인한다. 플러그인은 MCP와 스킬을 함께 제공한다. 개인 ChatGPT에서의 설치가 시험 작업 공간에도 적용된다고 가정하지 않는다. [Exa 공식 설치 안내](https://exa.ai/docs/integrations/chatgpt-codex)
+
+#### 2. 목록에 없으면 공식 Git 저장소의 marketplace 등록 시도
+
+Codex CLI가 Git marketplace 설치를 지원하고 외부 marketplace 등록이 허용되는 경우에만 시도한다.
 
 ```sh
-codex --search
+codex plugin marketplace add exa-labs/exa-mcp-server
+codex plugin list --marketplace exa --available --json
 ```
 
-Exa **플러그인**으로 준비하려면 제공되는 Plugins 메뉴나 [공식 Exa 플러그인 페이지](https://chatgpt.com/plugins/exa)에서 설치하고 필요한 인증을 마친다. 플러그인은 MCP와 스킬을 함께 제공하므로 아래 MCP를 중복 등록하지 않는다. [Exa의 Codex 설치 안내](https://exa.ai/docs/integrations/chatgpt-codex)
+등록이 성공하고 목록에 `exa`가 보일 때 설치한다.
 
-플러그인 카탈로그가 없고 MCP 등록이 허용되면 **Exa MCP만 연결하는 대안**:
+```sh
+codex plugin add exa@exa
+```
+
+이 명령은 [Exa 저장소의 marketplace](https://github.com/exa-labs/exa-mcp-server/blob/main/.claude-plugin/marketplace.json)에 정의된 marketplace 이름 `exa`, plugin 이름 `exa`와 [Codex의 Git marketplace 등록 방식](https://developers.openai.com/plugins/build/plugins)을 조합한 경로다. **시험 환경에서 이 경로의 설치·호출은 미검증**이다. 공식 디렉터리의 Exa 앱과 동일한 인증·도구 구성을 보장하지 않는다. 등록·호환성 오류, 설치 후 도구 미표시가 있으면 한 번만 확인하고 아래 MCP 경로로 전환한다.
+
+#### 3. 플러그인 설치가 안 되면 MCP로 연결 — 체험에서 사용한 경로
+
+시험 프로젝트의 일반 터미널에서 실행한다.
 
 ```sh
 codex mcp add exa --url https://mcp.exa.ai/mcp
 codex mcp list
 ```
 
-이후 Codex의 `/mcp`에서 연결을 확인하고 공개 문서 검색을 한 번 실행한다. 원격 서버 인증이 필요하다고 안내될 때는 `codex mcp login exa`를 사용한다. Exa는 인증 없이 검색·페이지 읽기를 시험해 볼 수 있는 제한된 사용량도 제공하지만, 시험 중 가용량을 보장하는 것은 아니다. [Exa MCP 공식 문서](https://exa.ai/docs/get-started/exa-mcp) · [OpenAI MCP 문서](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
+CLI 명령을 지원하지 않지만 MCP 설정 UI가 있으면 서버 이름은 `exa`, 원격 HTTP URL은 `https://mcp.exa.ai/mcp`로 추가한다. 이미 같은 서버가 연결돼 있으면 다시 등록하지 않는다.
+
+이후 Codex 대화창의 `/mcp`에서 Exa의 검색·페이지 읽기 도구가 보이는지 확인한다. 필요하면 환경이 허용하는 방식으로 세션을 다시 로드한다. 인증이 필요하다고 안내될 때만 터미널에서 다음을 실행한다.
+
+```sh
+codex mcp login exa
+```
+
+검색·페이지 읽기는 제한된 익명 사용량으로 시험할 수 있다. 인증·사용량 제한이 나오면 안내되는 연결 절차를 따르며 인증값을 README나 과제 코드에 넣지 않는다. [Exa MCP 공식 문서](https://exa.ai/docs/get-started/exa-mcp)
+
+연결 후에는 아래 요청을 **실제로 한 번 실행**한다.
+
+```text
+Exa로 Node.js 공식 문서를 검색하고 결과 한 페이지의 본문을 읽어라.
+확인한 내용 한 가지와 출처 URL을 보고해라.
+도구가 없거나 호출이 실패하면 실패 내용을 명시해라.
+```
 
 검색 대상은 라이브러리 공식 문서, 공개 API 명세, 일반적인 오류 해결 자료로 좁힌다. 비공개 과제 원문·코드·입력 데이터·로그를 외부 검색 서비스에 보내지 않는다. 검색이나 도구가 금지된 환경에서는 추가 연결로 우회하지 않는다.
 
-## 4. 디자인 후보를 이렇게 골랐다
+## 4. 프론트 구성 선택
 
-| 후보 | 이번 준비에서의 역할 | 판단 |
-| --- | --- | --- |
-| Impeccable | 기본 디자인 도구 | 구현→검토→수정을 연결하기 좋음 |
-| Anthropic frontend-design | 설치가 간단한 대안 | 타이포그래피·레이아웃·시각 방향 지침이 필요할 때 |
-| Vercel web-design-guidelines | 선택 검토 도구 | Impeccable audit만으로 부족할 때 추가 |
-| Mono Charts | React 차트 컴포넌트 | 차트가 필요한 과제에서 필요한 종류만 추가 |
-| awesome-design-md | 공개 디자인 참고 자료 | 필요하면 스타일 한 개만 DESIGN에 반영. [원본](https://github.com/VoltAgent/awesome-design-md) |
+**구현은 frontend-design, 검토는 web-design-guidelines**로 나눈다. 특정 프레임워크의 추가 스킬이나 Impeccable 같은 디자인 묶음은 기본 설치에서 제외한다. Mono Charts는 차트가 필요한 React 과제에서만 추가하는 컴포넌트이며 프론트 스킬 두 개에 포함되지 않는다.
 
-Stitch는 별도 생성 서비스 허용 여부와 인증을 확인해야 해서 기본 구성에서 보류했다. 주제가 정해지기 전에 여러 디자인 스킬을 모두 설치하기보다 과제에 필요한 도구부터 선택한다.
+코딩은 Ponytail, 검색은 Exa를 사용한다. 과제를 보기 전에 다른 도구를 더 설치하지 않고 제공된 스택과 기본 구성으로 시작한다.
 
 ## 5. 180분 작업 운영 예시
 
@@ -224,16 +256,20 @@ Stitch는 별도 생성 서비스 허용 여부와 인증을 확인해야 해서
 
 반복 하나는 10~20분을 목표로 한다. 같은 실패를 두 번 반복하거나 15분 동안 진전이 없으면 가설·작업 크기·접근법을 바꾼다. 검증을 통과하면 다음 요구사항으로 이동한다. 자동 반복 스케줄러나 별도 Autoresearch 시스템은 이 준비안에 추가하지 않았다.
 
-## 6. 사전 체험에서 확인할 것
+## 6. 본 과제 시작 전 재확인
 
-- [ ] 제공된 Codex가 프로젝트 AGENTS와 설치한 스킬을 인식하는가
-- [ ] Ponytail 호출과 Impeccable 첫 실행까지 성공하는가
-- [ ] 기본 검색이 되는가. 필요하면 Exa 검색과 페이지 읽기가 되는가
-- [ ] 앱 서버·포트·브라우저 미리보기와 파일 저장이 되는가
-- [ ] 훅, 외부 인증, 세션 전환, 커밋의 허용 범위는 무엇인가
-- [ ] 설치 실패 시 README의 대안만으로 작업을 시작할 수 있는가
+체험 성공 항목도 본 과제 작업 공간에서는 실제로 다시 확인한다.
 
-실패한 설치를 본 시험에서 계속 복구하느라 시간을 쓰지 않는다. AGENTS의 루프와 DESIGN의 기준으로 진행하고, 사용할 수 없는 도구는 VERIFY에 기록한다.
+- [ ] kit을 가져오고 기존 AGENTS와 충돌 없이 필요한 지침을 적용했다.
+- [ ] Ponytail이 로드되고 요청에 적용된다.
+- [ ] frontend-design과 web-design-guidelines 두 스킬을 선택해 호출할 수 있다.
+- [ ] Exa 플러그인 또는 MCP 중 하나로 검색과 페이지 읽기를 실제 실행했다.
+- [ ] `/fast` 상태와 `/status`의 컨텍스트·사용 한도 표시를 확인했다.
+- [ ] 앱 서버·포트·브라우저 미리보기와 파일 저장이 된다.
+- [ ] 제출 방식과 세션 전환·인증·커밋의 허용 범위를 확인했다.
+- [ ] 직접 답할 서술형 두 문항의 실제 근거를 HANDOFF와 DECISIONS에 남길 준비가 됐다.
+
+실패한 플러그인 설치를 반복 복구하느라 시간을 쓰지 않는다. Exa는 MCP 경로로 전환하고 사용할 수 없는 도구는 VERIFY에 기록한다.
 
 ## 7. 제출 README에 채울 내용
 
@@ -250,3 +286,14 @@ Stitch는 별도 생성 서비스 허용 여부와 인증을 확인해야 해서
 | 검증 결과·남은 한계 | VERIFY와 DECISIONS의 실제 결과를 요약 |
 
 후속 서술형은 HANDOFF와 DECISIONS를 보고 **내 코드의 위치 → 실패하는 조건 → 사용자 영향 → 다음 검증·개선** 순서로 설명한다. 구현하지 않은 개선안을 이미 구현한 것처럼 쓰지 않는다.
+
+## 8. 본인이 직접 답할 서술형 준비
+
+사전 체험에서 나온 질문의 요지다. 답변은 본인이 작성한다. 작업 중에는 답변을 대신 생성하기보다 아래 실제 근거를 짧게 기록하고 제출 전에 본인이 코드·실행 결과와 대조한다.
+
+| 질문 | 작업 중 남길 근거 | 기록 위치 |
+| --- | --- | --- |
+| 서비스의 핵심 동작은 무엇이고 어떻게 확인했는가? | 사용자 입력/행동 → 처리 → 결과, 구현 파일·함수, 실제 입력·조작, 기대 결과와 관찰 결과, 확인하지 못한 범위 | HANDOFF의 직접 답변 준비 + VERIFY의 증거 ID |
+| AI 에이전트의 제안을 바꿨다면 왜 바꿨는가? | AI의 원래 제안 → 본인이 바꾼 내용 → 바꾼 이유와 제약 → 변경 후 실제 확인 결과 | DECISIONS의 D-ID + TASKS의 해당 반복 |
+
+AI 제안을 수정한 사례가 없으면 없다고 답한다. 답변을 위해 없었던 판단·대화·검증을 만들어 넣지 않는다. 핵심 동작은 구현한 서비스의 구체적인 흐름으로 설명하고 「잘 작동했다」 대신 실제로 무엇을 입력하고 어떤 결과를 봤는지 적는다.
