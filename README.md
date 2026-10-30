@@ -4,6 +4,15 @@
 
 기본 구성은 **Ponytail + frontend-design + web-design-guidelines + Exa**다. 사전 체험 환경에는 기본 웹 검색이 없어 **Exa 검색 연결을 필수로 준비**한다. 플러그인을 사용할 수 없으면 체험에서 사용한 MCP 경로로 연결한다. 차트가 필요한 React 과제에는 **Mono Charts**를 우선 검토한다. 루프는 `요구사항 선택 → 작은 구현 → 기능 확인 → 회귀 확인 → 근거 기록 → 다음 작업`으로 운영한다. 문서는 루프를 돕는 장치이며, 작성만으로 작업이 자동 실행되지는 않는다.
 
+## 기본 개발 스택
+
+| 구분 | 기본 선택 |
+| --- | --- |
+| 프론트엔드 | **React + Vite** |
+| 백엔드 | **Python** |
+
+별도 스택 지정이 없으면 이 구성으로 시작한다. 과제에서 스택을 명시적으로 요구하면 해당 제약을 반영한다. Python 웹 프레임워크와 데이터베이스는 과제 요구사항을 확인한 뒤 필요한 것만 선택한다. 현재 키트는 문서 템플릿이며 앱 코드나 실행 환경이 구성된 상태는 아니다.
+
 ## 사전 체험 결과
 
 2026-10-31 사용자 보고 기준이다. 본 과제에서도 같은 설정·가용량이 유지된다는 뜻은 아니다.
@@ -58,7 +67,7 @@ cd hackton_kit
 1. 제공된 README와 코드를 먼저 읽고 필수 파일명, 제출 방식, 허용 도구를 확인한다.
 2. 기존 AGENTS.md가 있으면 필요한 규칙을 병합한다. 이 폴더의 나머지 템플릿도 기존 파일을 덮어쓰지 않고 적용한다. 이 README의 설치 안내는 준비용이고, 제출 README에는 실제 실행·검증·한계만 반영한다.
 3. PRODUCT에 요구사항 ID와 관찰 가능한 수용 기준을 적는다. 초기 계획·문서 정리는 10~15분 안에 끝낸다.
-4. 제공된 스택과 잠금 파일을 유지하고 앱을 먼저 실행한다. 현재 동작과 기존 실패를 VERIFY에 기록한다.
+4. 별도 스택 지정이 없으면 React + Vite와 Python으로 시작한다. 기존 컴포넌트·잠금 파일을 활용하고 앱을 먼저 실행한다. 현재 동작과 기존 실패를 VERIFY에 기록한다.
 5. 핵심 사용자 동작 하나를 끝까지 연결한 뒤 다음 기능으로 간다. 문서 갱신은 반복마다 몇 줄로 제한한다.
 
 첫 지시 예시 — 아래 내용은 **Codex 대화창**에 입력한다.
@@ -80,13 +89,14 @@ AGENTS.md와 제공된 과제 안내를 읽어라.
 ```sh
 node --version
 npm --version
+python --version
 git --version
 codex --version
 codex plugin --help
 codex mcp --help
 ```
 
-로컬에서는 Codex CLI 0.165.0의 `plugin add`, `plugin marketplace add`, `mcp add --url` 도움말을 확인했다. 사전 체험의 설치·사용 성공은 위 사용자 보고로 구분해 기록했으며, 새 Exa Git marketplace 경로와 축소한 두 스킬의 개별 호출은 시험 환경에서 재확인이 필요하다. `skills` CLI의 현재 문서는 Node.js 22.20 이상을 요구하므로 사전 체험에서 버전을 확인한다. [Skills CLI 공식 저장소](https://github.com/vercel-labs/skills)
+Python 명령은 환경에 따라 python3를 사용한다. 프론트와 백엔드의 실제 버전·실행 명령·포트는 VERIFY와 HANDOFF에 기록한다. 로컬에서는 Codex CLI 0.165.0의 `plugin add`, `plugin marketplace add`, `mcp add --url` 도움말을 확인했다. 사전 체험의 설치·사용 성공은 위 사용자 보고로 구분해 기록했으며, 새 Exa Git marketplace 경로와 축소한 두 스킬의 개별 호출은 시험 환경에서 재확인이 필요하다. `skills` CLI의 현재 문서는 Node.js 22.20 이상을 요구하므로 사전 체험에서 버전을 확인한다. [Skills CLI 공식 저장소](https://github.com/vercel-labs/skills)
 
 ### Fast 모드와 사용량 확인
 
@@ -148,7 +158,7 @@ Codex 대화창 예시:
 ```text
 $frontend-design
 PRODUCT.md와 DESIGN.md를 읽고 핵심 화면을 구현해라.
-제공된 스택과 컴포넌트를 활용하고 기존 기능·데이터 흐름은 유지해라.
+기본 스택은 React + Vite이며 기존 컴포넌트를 활용하고 기능·데이터 흐름은 유지해라.
 
 $web-design-guidelines
 변경한 UI 코드를 검토하고 접근성·입력·포커스·오류 상태의 문제를 찾아라.
@@ -242,7 +252,7 @@ Exa로 Node.js 공식 문서를 검색하고 결과 한 페이지의 본문을 �
 
 **구현은 frontend-design, 검토는 web-design-guidelines**로 나눈다. 특정 프레임워크의 추가 스킬이나 Impeccable 같은 디자인 묶음은 기본 설치에서 제외한다. Mono Charts는 차트가 필요한 React 과제에서만 추가하는 컴포넌트이며 프론트 스킬 두 개에 포함되지 않는다.
 
-코딩은 Ponytail, 검색은 Exa를 사용한다. 과제를 보기 전에 다른 도구를 더 설치하지 않고 제공된 스택과 기본 구성으로 시작한다.
+코딩은 Ponytail, 검색은 Exa를 사용한다. 과제를 보기 전에 다른 도구를 더 설치하지 않고 React + Vite·Python과 기본 도구 구성으로 시작한다.
 
 ## 5. 180분 작업 운영 예시
 
