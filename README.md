@@ -5,7 +5,8 @@
 ## 기본 구성
 
 - 프론트엔드: **React + Vite**
-- 백엔드: 서버 처리가 필요할 때만 **Python** 사용. 프론트만으로 충분하면 생략하고, 웹 프레임워크와 DB도 필요한 것만 선택
+- 백엔드: **Python** — 웹 프레임워크는 과제 요구사항에 맞춰 선택
+- 데이터베이스: **PostgreSQL** — 실제 프론트·백엔드·DB 연동을 구현하고 PostgreSQL MCP로 개발 중 조회·검증
 - 코딩: **Ponytail**
 - 프론트 스킬: **Anthropic frontend-design**으로 구현, **Vercel web-design-guidelines**로 검토
 - 검색: **Exa** — 플러그인 또는 MCP 중 하나로 연결
@@ -62,6 +63,38 @@ codex mcp list
 
 설정 UI로 연결할 때도 서버 이름은 `exa`, URL은 `https://mcp.exa.ai/mcp`다. 인증을 요청할 때만 `codex mcp login exa`를 실행한다.
 연결 후 공식 문서를 검색하고 한 페이지를 읽어 출처 URL을 확인한다.
+
+### PostgreSQL MCP
+
+[Microsoft Postgres MCP](https://github.com/microsoft/postgres-mcp)로 Codex에서 DB 스키마·테이블·쿼리 결과를 확인한다. 현재 Preview이며 **Node.js 22 이상**과 접속 가능한 PostgreSQL DB가 필요하다. MCP는 개발 보조 도구이고 앱은 `프론트 → Python 백엔드 → PostgreSQL`로 연결한다. 이 키트는 설치 안내만 제공한다.
+
+**1. 대회 전: MCP 등록**
+
+```sh
+node --version
+codex mcp add postgres -- npx -y @microsoft/postgres-mcp run
+codex mcp list
+```
+
+`npx`가 첫 실행 때 패키지를 내려받으므로 전역 설치는 필요 없다. 이미 `postgres` 서버가 등록되어 있으면 중복 추가하지 않는다. 등록만으로 DB 생성이나 연결 검증이 완료되는 것은 아니다.
+
+**2. 과제·DB 공개 후: 연결 프로필 등록**
+
+아래 `DB_HOST`·포트·`MCP_USER`·`DB_NAME`을 제공된 값으로 바꾼다. `MCP_USER`는 조회 전용 DB 계정을 사용하고 앱의 쓰기 계정과 구분한다. 원격 DB는 제공 업체 안내에 따라 `sslmode=verify-full` 등 TLS·인증서 설정을 연결 문자열에 추가한다.
+
+```sh
+npx -y @microsoft/postgres-mcp connection add hackathon "host=DB_HOST port=5432 user=MCP_USER dbname=DB_NAME" --access-mode ro
+npx -y @microsoft/postgres-mcp connection set-password hackathon
+npx -y @microsoft/postgres-mcp connection list
+```
+
+비밀번호는 `set-password`의 숨김 입력창에 직접 입력하며 OS 자격증명 저장소에 보관된다. 비밀번호를 연결 문자열·README·대화·Git에 넣지 않는다. `ro`는 MCP의 쓰기 도구를 제한하며 DB 계정의 조회 전용 권한도 함께 적용한다. 스키마 변경은 백엔드 마이그레이션으로 관리한다.
+
+**3. Codex에서 연결 확인**
+
+설정을 다시 로드하거나 새 세션을 열고 `/mcp`에서 `postgres`의 도구가 보이는지 확인한다. 이어서 “`hackathon` 프로필에 연결해 `SELECT 1 AS ok`를 실행하고 현재 DB 이름과 테이블 목록을 보여줘”라고 요청한다. `ok = 1`과 의도한 DB가 확인되면 연결 성공이며, 새 DB의 빈 테이블 목록은 정상이다. 실제 결과는 VERIFY.md에 기록한다.
+
+설정·OS 키링 문제는 [Microsoft 사용 안내](https://github.com/microsoft/postgres-mcp/blob/main/USAGE.md), Codex 등록 형식은 [OpenAI 공식 MCP 문서](https://learn.chatgpt.com/docs/extend/mcp)를 확인한다.
 
 ## Codex 대화창 명령
 
