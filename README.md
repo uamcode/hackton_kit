@@ -30,6 +30,26 @@
 작업 루프: `요구사항 선택 → 작은 구현 → VERIFY → GUARD → 근거 기록 → 다음 작업`.
 VERIFY·GUARD의 기준과 실제 증거는 VERIFY.md에서 관리한다.
 
+## Codex CLI 시작·worktree
+
+`PROJECT_DIR`를 실제 과제 프로젝트의 루트 경로로 바꾸고 아래 명령 중 하나로 메인 세션을 시작한다.
+
+기본 작업 폴더에서 시작:
+
+```sh
+codex -C "PROJECT_DIR"
+```
+
+원본과 분리한 새 worktree에서 시작:
+
+```sh
+codex -C "PROJECT_DIR" --worktree
+```
+
+`-C`는 기준 프로젝트를 지정하고 `--worktree`는 새 세션용 Git 작업 공간을 자동 생성한다. 서브에이전트별 자동 분리를 전제로 운영하지 않으며, worktree의 변경은 제출 대상에 통합한 뒤 검증한다. [OpenAI 공식 CLI 문서](https://learn.chatgpt.com/docs/cli/reference)
+
+위임 전에 `/permissions`로 메인의 권한을 확인한다. 서브에이전트는 메인의 sandbox·승인 설정을 상속한다. [권한 상속 안내](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+
 ## 도구 설치
 
 아래는 **프로젝트 루트의 터미널**에서 실행한다. 이미 설치·연결되어 있으면 생략한다.
@@ -102,6 +122,7 @@ npx -y @microsoft/postgres-mcp connection list
 | --- | --- |
 | `/fast` | Fast 모드 확인·변경 |
 | `/status` | 세션의 모델·토큰/컨텍스트 상태와 제공되는 사용 한도 확인 |
+| `/permissions` | 현재 세션의 권한 확인·변경 |
 | `/skills` | 설치된 스킬 선택 |
 | `/mcp` | Exa 등 MCP 연결·도구 확인 |
 | `/subagents` | 서브에이전트 상태 확인 |
