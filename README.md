@@ -10,6 +10,7 @@
 - 코딩: **Ponytail**
 - 프론트 스킬: **Anthropic frontend-design**으로 구현, **Vercel web-design-guidelines**로 검토
 - 검색: **Exa** — 플러그인 또는 MCP 중 하나로 연결
+- 아키텍처 시각화: **Archify** — 실제 코드 기반 구조도를 필요할 때 생성
 
 ## 시작 순서
 
@@ -25,6 +26,7 @@
 | [DESIGN.md](DESIGN.md) | UI 구현 전: 화면 흐름·토큰·상태 |
 | [TASKS.md](TASKS.md) | 맥락 복원·현재 작업·담당·다음 행동 갱신 |
 | [VERIFY.md](VERIFY.md) | 의미 있는 검증 단위로 명령과 실제 조작·관찰 결과를 한 줄씩 기록 |
+| [EVALUATION.md](EVALUATION.md) | 사용자·관리자·채점자 및 AI Native 독립 평가 |
 | [DECISIONS.md](DECISIONS.md) | 실제 흐름·중요한 선택·AI 제안을 바꾼 이유·한계 기록 |
 
 작업 루프: `요구사항 선택 → 작은 구현 → VERIFY → GUARD → 근거 기록 → 다음 작업`.
@@ -71,6 +73,16 @@ npx skills add vercel-labs/agent-skills --skill web-design-guidelines --agent co
 ```
 
 Codex 대화창에서 `$frontend-design`으로 구현하고 `$web-design-guidelines`로 검토한다.
+
+### Archify (선택)
+
+[Archify](https://github.com/tt-a1i/archify)는 코드에 근거한 시스템 구조·데이터 흐름을 HTML로 시각화하는 스킬이다. 세션에서 공유할 수 있도록 전역 설치한다.
+
+```sh
+npx -y skills add tt-a1i/archify --skill archify --agent codex --global --copy --yes
+```
+
+핵심 구현 완료 후 또는 최종 통합 시에 사용한다. Codex에 “Archify로 실제 코드의 요청→처리→저장→응답 흐름을 그려줘. 확인한 연결과 추정을 구별해줘.”라고 요청한다. 구조도를 실제 코드와 실행 결과에 대조한다.
 
 ### Exa
 
